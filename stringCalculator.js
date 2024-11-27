@@ -6,6 +6,10 @@ function add(string) {
     const delimiter = getDelimeter(string);
     const stringAfterReplacingDelimeter = stringAfterReplacingNewLine.replaceAll(delimiter, ",");
     const numbers = stringAfterReplacingDelimeter.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
+    const negativeNumbers = numbers.filter((number) => number < 0);
+    if (negativeNumbers.length > 0) {
+        throw new Error(`negative numbers not allowed ${negativeNumbers.join(",")}`);
+    }
     if (numbers.length === 1) {
         return numbers[0];
     }

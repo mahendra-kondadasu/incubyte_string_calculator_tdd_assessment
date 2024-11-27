@@ -24,6 +24,15 @@ describe('add', () => {
     it('should return 6 when given //a\n1a2a3', () => {
         expect(add("//a\n1a2a3")).toBe(6);
     });
+
+    it('should throw an exception when given -1', () => {
+        expect(() => add("-1")).toThrow("negative numbers not allowed -1");
+    });
+
+    it('should throw an exception when given -1,-2', () => {
+        expect(() => add("-1,-2")).toThrow("negative numbers not allowed -1,-2");
+    });
+    
 });
 
 describe('getDelimeter', () => {

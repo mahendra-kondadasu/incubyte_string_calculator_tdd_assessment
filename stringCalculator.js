@@ -2,10 +2,9 @@ function add(string) {
     if (string === "") {
         return 0;
     }
-    const stringAfterReplacingNewLine = string.replaceAll("\n", ",");
-    const delimiter = getDelimeter(string);
-    const stringAfterReplacingDelimeter = stringAfterReplacingNewLine.replaceAll(delimiter, ",");
-    const numbers = stringAfterReplacingDelimeter.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
+    const delimiters = getDelimeters(string);
+    const stringAfterReplacingDelimiters = replaceDelimiters(string, delimiters, ",");
+    const numbers = stringAfterReplacingDelimiters.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
     const filterNumbersGreaterThan1000 = numbers.filter((number) => number <= 1000);
     const negativeNumbers = filterNumbersGreaterThan1000.filter((number) => number < 0);
     if (negativeNumbers.length > 0) {
@@ -17,15 +16,37 @@ function add(string) {
     return filterNumbersGreaterThan1000.reduce((acc, number) => acc + number);
 }
 
-function getDelimeter(string) {
+
+function getDelimeters(string) {
+    const delimeters = ["\n"];
+
     const delimiterStartIndex = string.indexOf("//");
     if (delimiterStartIndex !== -1) {
-        return string[delimiterStartIndex + 2];
+        const singleCharDelimiter = string[delimiterStartIndex + 2];
+        if (singleCharDelimiter !== "[") {
+            delimeters.push(singleCharDelimiter);
+        }
     }
-    return null;
+
+    const matches = string.match(/^\/\/(\[.*?\])+\n/);
+    if (matches) {
+        // Extract multiple delimiters inside brackets
+        const multiDelimiters = matches[0]
+            .match(/\[([^\]]+)\]/g)
+            .map(delim => delim.slice(1, -1));
+        delimeters.push(...multiDelimiters);
+    }
+
+    return delimeters;
+}
+
+
+function replaceDelimiters(input, delimiters, replacement) {
+    return delimiters.reduce((result, delimiter) => result.replaceAll(delimiter, replacement), input);
 }
 
 export {
     add,
-    getDelimeter
+    getDelimeters,
+    replaceDelimiters
 };

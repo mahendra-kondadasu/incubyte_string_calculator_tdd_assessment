@@ -1,4 +1,4 @@
-import { add, getDelimeter } from './stringCalculator.js';
+import { add, getDelimeters, replaceDelimiters } from './stringCalculator.js';
 
 describe('add', () => {
     it('should return 0 when given an empty string', () => {
@@ -32,19 +32,81 @@ describe('add', () => {
     it('should throw an exception when given -1,-2', () => {
         expect(() => add("-1,-2")).toThrow("negative numbers not allowed -1,-2");
     });
-    
+
     it('should return 2 when given 2,1001', () => {
         expect(add("2,1001")).toBe(2);
     });
 
-});
-
-describe('getDelimeter', () => {
-    it('should return ; when given //;\n1;2;3', () => {
-        expect(getDelimeter("//;\n1;2,3")).toBe(";");
+    it('should return 6 when given //[***]\n1***2***3', () => {
+        expect(add("//[***]\n1***2***3")).toBe(6);
     });
 
-    it('should return a when given //a\n1a2a3', () => {
-        expect(getDelimeter("//a\n1a2a3")).toBe("a");
+    it('should return 6 when given //[*][%]\n1*2%3', () => {
+        expect(add("//[*][%]\n1*2%3")).toBe(6);
+    });
+
+    it('should return 6 when given //[*][%][#]\n1*2%3#4', () => {
+        expect(add("//[*][%][#]\n1*2%3#4")).toBe(10);
+    });
+
+    it('should return 6 when given //[*%][#]\n1*%2#3', () => {
+        expect(add("//[*%][#]\n1*%2#3")).toBe(6);
+    });
+
+});
+
+describe('getDelimeters', () => {
+    it('should contain ; when given //;\n1;2;3', () => {
+        expect(getDelimeters("//;\n1;2,3")).toContain(";");
+    });
+
+    it('should contain a when given //a\n1a2a3', () => {
+        expect(getDelimeters("//a\n1a2a3")).toContain("a");
+    });
+
+    it('should contain *** when given //[***]\n1***2***3', () => {
+        expect(getDelimeters("//[***]\n1***2***3")).toContain("***");
+    });
+
+    it('should contain * and % when given //[*][%]\n1*2%3', () => {
+        expect(getDelimeters("//[*][%]\n1*2%3")).toContain("*", "%");
+    });
+
+    it('should contain *, # and % when given //[*][%][#]\n1*2%3#4', () => {
+        expect(getDelimeters("//[*][%][#]\n1*2%3#4")).toContain("*", "%", "#");
+    });
+
+    it('should contain *% and # when given //[*%][#]\n1*%2#3', () => {
+        expect(getDelimeters("//[*%][#]\n1*%2#3")).toContain("*%", "#");
+    });
+});
+
+describe('replaceDelimiters', () => {
+    it('should replace ; with , when given 1;2;3', () => {
+        expect(replaceDelimiters("1;2;3", [";"], ",")).toBe("1,2,3");
+    });
+
+    it('should replace \n with , when given 1\n2,3', () => {
+        expect(replaceDelimiters("1\n2,3", ["\n"], ",")).toBe("1,2,3");
+    });
+
+    it('should replace * with , when given 1*2*3', () => {
+        expect(replaceDelimiters("1*2*3", ["*"], ",")).toBe("1,2,3");
+    });
+
+    it('should replace ; \n and // with , when given //;\n1;2;3', () => {
+        expect(replaceDelimiters("//;\n1;2,3", [";", '\n', "//"], ",")).toBe(",,,1,2,3");
+    });
+
+    it('should replace a \n and // with , when given //a\n1a2a3', () => {
+        expect(replaceDelimiters("//a\n1a2a3", ["a", "\n", "//"], ",")).toBe(",,,1,2,3");
+    });
+
+    it('should replace *** \n // [ and ] with , when given //[***]\n1***2***3', () => {
+        expect(replaceDelimiters("//[***]\n1***2***3", ["***", "\n", "//", "[", "]"], ",")).toBe(",,,,,1,2,3");
+    });
+
+    it('should replace * % and # with , when given //[*][%]\n1*2%3', () => {
+        expect(replaceDelimiters("//[*][%]\n1*2%3", ["*", "%", "#", "\n", "//", "[", "]"], ",")).toBe(",,,,,,,,1,2,3");
     });
 });

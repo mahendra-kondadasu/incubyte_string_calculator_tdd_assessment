@@ -1,0 +1,23 @@
+{
+  "name": "incubyte_string_calculator_tdd_assessment",
+  "version": "1.0.0",
+  "description": "Incubyte - String Calculator TDD Assessment",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test-coverage": "jest --coverage"
+  },
+  "keywords": [
+    "javascript",
+    "jest",
+    "tdd"
+  ],
+  "author": "Mahendra Kondadasu",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  }
+}

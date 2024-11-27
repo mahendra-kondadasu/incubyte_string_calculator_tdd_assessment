@@ -1,4 +1,4 @@
-import { add } from './stringCalculator.js';
+import { add, getDelimeter } from './stringCalculator.js';
 
 describe('add', () => {
     it('should return 0 when given an empty string', () => {
@@ -15,5 +15,23 @@ describe('add', () => {
 
     it('should return 6 when given 1\n2,3', () => {
         expect(add("1\n2,3")).toBe(6);
+    });
+
+    it('should return 6 when given //;\n1;2;3', () => {
+        expect(add("//;\n1;2,3")).toBe(6);
+    });
+
+    it('should return 6 when given //a\n1a2a3', () => {
+        expect(add("//a\n1a2a3")).toBe(6);
+    });
+});
+
+describe('getDelimeter', () => {
+    it('should return ; when given //;\n1;2;3', () => {
+        expect(getDelimeter("//;\n1;2,3")).toBe(";");
+    });
+
+    it('should return a when given //a\n1a2a3', () => {
+        expect(getDelimeter("//a\n1a2a3")).toBe("a");
     });
 });

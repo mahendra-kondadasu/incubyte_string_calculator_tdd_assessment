@@ -1,7 +1,7 @@
 # incubyte_string_calculator_tdd_assessment
 Incubyte - String Calculator TDD Assessment
 
-# Assignment Detals
+# Assessment Detals
 Before you start: 
 Try not to read ahead.
 

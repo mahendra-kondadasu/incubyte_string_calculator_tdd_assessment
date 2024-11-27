@@ -5,15 +5,15 @@ function add(string) {
     const delimiters = getDelimeters(string);
     const stringAfterReplacingDelimiters = replaceDelimiters(string, delimiters, ",");
     const numbers = stringAfterReplacingDelimiters.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
-    const filterNumbersGreaterThan1000 = numbers.filter((number) => number <= 1000);
-    const negativeNumbers = filterNumbersGreaterThan1000.filter((number) => number < 0);
+    const negativeNumbers = numbers.filter((number) => number < 0);
     if (negativeNumbers.length > 0) {
         throw new Error(`negative numbers not allowed ${negativeNumbers.join(",")}`);
     }
-    if (filterNumbersGreaterThan1000.length === 1) {
-        return filterNumbersGreaterThan1000[0];
+    const numbersLessThan1000 = numbers.filter((number) => number <= 1000);
+    if (numbersLessThan1000.length === 1) {
+        return numbersLessThan1000[0];
     }
-    return filterNumbersGreaterThan1000.reduce((acc, number) => acc + number);
+    return numbersLessThan1000.reduce((acc, number) => acc + number);
 }
 
 

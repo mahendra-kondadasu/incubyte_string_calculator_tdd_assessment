@@ -33,6 +33,10 @@ describe('add', () => {
         expect(() => add("-1,-2")).toThrow("negative numbers not allowed -1,-2");
     });
     
+    it('should return 2 when given 2,1001', () => {
+        expect(add("2,1001")).toBe(2);
+    });
+
 });
 
 describe('getDelimeter', () => {

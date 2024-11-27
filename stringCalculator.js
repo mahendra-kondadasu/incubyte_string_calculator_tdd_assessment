@@ -6,14 +6,15 @@ function add(string) {
     const delimiter = getDelimeter(string);
     const stringAfterReplacingDelimeter = stringAfterReplacingNewLine.replaceAll(delimiter, ",");
     const numbers = stringAfterReplacingDelimeter.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
-    const negativeNumbers = numbers.filter((number) => number < 0);
+    const filterNumbersGreaterThan1000 = numbers.filter((number) => number <= 1000);
+    const negativeNumbers = filterNumbersGreaterThan1000.filter((number) => number < 0);
     if (negativeNumbers.length > 0) {
         throw new Error(`negative numbers not allowed ${negativeNumbers.join(",")}`);
     }
-    if (numbers.length === 1) {
-        return numbers[0];
+    if (filterNumbersGreaterThan1000.length === 1) {
+        return filterNumbersGreaterThan1000[0];
     }
-    return numbers.reduce((acc, number) => acc + number);
+    return filterNumbersGreaterThan1000.reduce((acc, number) => acc + number);
 }
 
 function getDelimeter(string) {

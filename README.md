@@ -104,3 +104,45 @@ npm run test
 ```
 npm run test-coverage
 ```
+
+# Integration of Github Actions for Running Tests (Continuous Inegration)
+
+1. Create workflow file
+```
+mkdir -p .github/workflows/ && touch "$_"/run-tests.yml
+```
+2. Add the following lines to the run-tests.yml file 
+```
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # Step 4: Run Jest tests
+      - name: Run Tests
+        run: npm test
+```

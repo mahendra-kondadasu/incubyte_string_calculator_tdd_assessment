@@ -12,4 +12,8 @@ describe('add', () => {
     it('should return 3 when given 1,2', () => {
         expect(add("1,2")).toBe(3);
     });
+
+    it('should return 6 when given 1\n2,3', () => {
+        expect(add("1\n2,3")).toBe(6);
+    });
 });

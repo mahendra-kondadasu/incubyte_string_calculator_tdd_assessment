@@ -2,9 +2,7 @@ function add(string) {
     if (string === "") {
         return 0;
     }
-    const delimiters = getDelimeters(string);
-    const stringAfterReplacingDelimiters = replaceDelimiters(string, delimiters, ",");
-    const numbers = stringAfterReplacingDelimiters.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
+    const numbers = convertStringToNumbers(string);
     const negativeNumbers = numbers.filter((number) => number < 0);
     if (negativeNumbers.length > 0) {
         throw new Error(`negative numbers not allowed ${negativeNumbers.join(",")}`);
@@ -16,6 +14,11 @@ function add(string) {
     return numbersLessThan1000.reduce((acc, number) => acc + number);
 }
 
+function convertStringToNumbers(string) {
+    const delimiters = getDelimeters(string);
+    const stringAfterReplacingDelimiters = replaceDelimiters(string, delimiters, ",");
+    return stringAfterReplacingDelimiters.split(",").map((number) => parseInt(number)).filter((number) => !isNaN(number));
+}
 
 function getDelimeters(string) {
     const delimeters = ["\n"];

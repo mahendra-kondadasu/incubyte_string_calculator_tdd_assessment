@@ -50,13 +50,16 @@ describe('add', () => {
     });
 
     it('should return 6 when given //[*][%][#]\n1*2%3#4', () => {
-        expect(add("//[*][%][#]\n1*2%3#4")).toBe(10);
+        expect(add("//[*][%][#]\n1*2%3#4")).toBe(24);
     });
 
     it('should return 6 when given //[*%][#]\n1*%2#3', () => {
         expect(add("//[*%][#]\n1*%2#3")).toBe(6);
     });
 
+    it('should return 6 when given //*\n2*3', ()=>{
+        expect(add("//*\n2*3")).toBe(6);
+    });
 });
 
 describe('getDelimeters', () => {
